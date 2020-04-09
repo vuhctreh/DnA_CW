@@ -13,7 +13,6 @@ public class Generators {
            List<person> people = new ArrayList<>();
            if(coin_flip == 1){
                for(int x = 0; x < numberOfPeople; x ++){
-                   // String person_name = "Person" + x;
                    int destination_floor = rand.nextInt(total_Floors - 1);
                    person additional_Person = new person(i, destination_floor, "waiting");
                    people.add(additional_Person);
