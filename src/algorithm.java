@@ -7,51 +7,34 @@ public class algorithm {
     public static int floors = 6;
     public static int current_floor = 0;
 
-    static List<lift_floor> building = new ArrayList<>();
     static List<Integer> stops = new ArrayList<>();
     static lift elevator = new lift(direction, stops, "Idle");
-    static person testy = new person(1, 3, "Waiting");
-    static person tester = new person(3, 2, "Waiting");
-    static List<person> testList = new ArrayList<>();
-    static List<person> testList2 = new ArrayList<>();
-    static List<person> testList3 = new ArrayList<>();
-    static lift_floor floor1 = new lift_floor(1, true, testList);
-    static lift_floor floor2 = new lift_floor(3, true, testList3);
-    static lift_floor floor3 = new lift_floor(5, false, testList2);
-    static lift_floor floor4 = new lift_floor(4, true, testList2);
-    static lift_floor floor5 = new lift_floor(2, false, testList2);
-    static lift_floor floor0 = new lift_floor(0, true, testList2);
 
     public static void main(String[]args) throws InterruptedException {
-        direction = LiftMovement.UP;
-        testList.add(testy);
-        testList3.add(tester);
-        building.add(floor1);
-        building.add(floor3);
-        building.add(floor2);
-        building.add(floor4);
-        building.add(floor5);
-        building.add(floor0);
 
-        Collections.sort(building);
+        List<lift_floor> Building = Generators.Population_Generator(floors);
+
+        System.out.println(Building.get(0).getPeopleWaiting());
+
+        Collections.sort(Building);
 
         boolean isAtTop = false;
         for(current_floor = 0; current_floor < floors; current_floor++) {
             System.out.println("Lift is going up; current floor is " + current_floor);
+            if(Building.get(current_floor).getPeopleWaiting() && Building.get(current_floor).getPopulation().size() > 0) {
+                stops.add(Building.get(current_floor).getPopulation().get(0).getDestination_floor());
+                elevator.setStops(stops);
+                System.out.println(elevator.getStops());
+                System.out.println("Passenger picked up on floor " + current_floor);
+                TimeUnit.SECONDS.sleep(2);
+                Building.get(current_floor).setPeopleWaiting(false);
+            }
             for(int i = 0; i < stops.size(); i++){
                 if(elevator.getStops().get(i).equals(current_floor)){
-                    System.out.println("Passenger was dropped off on floor " + current_floor);
+                    System.out.println("Passenger(s) was dropped off on floor " + current_floor);
                     elevator.getStops().remove(elevator.getStops().get(i));
                 }
             }
-            if(building.get(current_floor).getPeopleWaiting() && building.get(current_floor).getPopulation().size() > 0) {
-                stops.add(building.get(current_floor).getPopulation().get(0).getDestination_floor());
-                elevator.setStops(stops);
-                System.out.println("Passenger picked up on floor " + current_floor);
-                TimeUnit.SECONDS.sleep(2);
-                building.get(current_floor).setPeopleWaiting(false);
-            }
-
             direction = LiftMovement.IDLE;
             isAtTop = true;
         }
