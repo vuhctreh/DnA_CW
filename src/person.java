@@ -3,11 +3,13 @@ public class person {
     private int current_floor;
     private int destination_floor;
     private String status;
+    private int weight;
 
-    public person(int current_floor, int destination_floor, String status){
+    public person(int current_floor, int destination_floor, String status, int weight){
         this.current_floor = current_floor;
         this.destination_floor = destination_floor;
         this.status = status;
+        this.weight = weight;
     }
 
     public void setCurrent_floor(int current_floor) {
@@ -27,5 +29,11 @@ public class person {
     }
     public String getStatus() {
         return status;
+    }
+    public int getWeight() {
+        return weight;
+    }
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 }

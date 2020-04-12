@@ -8,7 +8,7 @@ public class algorithm {
     public static int current_floor = 0;
 
     static List<Integer> stops = new ArrayList<>();
-    static lift elevator = new lift(direction, stops, "Idle");
+    static lift elevator = new lift(direction, stops, "Idle", 0);
 
     public static void main(String[]args) throws InterruptedException {
 
@@ -31,7 +31,7 @@ public class algorithm {
             }
             for(int i = 0; i < stops.size(); i++){
                 if(elevator.getStops().get(i).equals(current_floor)){
-                    System.out.println("Passenger(s) was dropped off on floor " + current_floor);
+                    System.out.println("Passenger(s) were dropped off on floor " + current_floor);
                     elevator.getStops().remove(elevator.getStops().get(i));
                 }
             }
