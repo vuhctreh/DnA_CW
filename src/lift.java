@@ -6,12 +6,14 @@ public class lift {
     private String status;
     private LiftMovement direction;
     private int current_load;
+    private List<person> people;
 
-    public lift(LiftMovement direction, List<Integer> stops, String status, int current_load){
+    public lift(LiftMovement direction, List<Integer> stops, String status, int current_load, List<person> people){
         this.stops = stops;
         this.status = status;
         this.direction = direction;
         this.current_load = current_load;
+        this.people = people;
     }
 
     public String getStatus() {
@@ -44,5 +46,13 @@ public class lift {
 
     public void setCurrent_load(int current_load) {
         this.current_load = current_load;
+    }
+
+    public List<person> getPeople() {
+        return people;
+    }
+
+    public void setPeople(List<person> people) {
+        this.people = people;
     }
 }
