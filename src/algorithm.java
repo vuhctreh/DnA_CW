@@ -6,6 +6,7 @@ public class algorithm {
     public static LiftMovement direction;
     public static int floors = 6;
     public static int current_floor = 0;
+    public static int max_load = 800;
 
     static List<Integer> stops = new ArrayList<>();
     static lift elevator = new lift(direction, stops, "Idle", 0);
@@ -14,14 +15,13 @@ public class algorithm {
 
         List<lift_floor> Building = Generators.Population_Generator(floors);
 
-        System.out.println(Building.get(0).getPeopleWaiting());
-
         Collections.sort(Building);
 
         boolean isAtTop = false;
         for(current_floor = 0; current_floor < floors; current_floor++) {
             System.out.println("Lift is going up; current floor is " + current_floor);
             if(Building.get(current_floor).getPeopleWaiting() && Building.get(current_floor).getPopulation().size() > 0) {
+                //TODO make elevator add every person on floor instead of just the first person
                 stops.add(Building.get(current_floor).getPopulation().get(0).getDestination_floor());
                 elevator.setStops(stops);
                 System.out.println(elevator.getStops());
