@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-//TODO rework elevator logic (make person object attached to elevator so I can control weight and adjust stops).
+//TODO make the elevator pick up people it left on previous floors
 
 public class algorithm {
     public static LiftMovement direction;
@@ -27,6 +27,9 @@ public class algorithm {
                     System.out.println("There are " + Building.get(current_floor).getPopulation().size() + " people waiting on floor " + current_floor);
                     if(elevator.getCurrent_load() > max_load){
                         current_floor ++;
+                        // stream to check if there are people still waiting
+                        /* boolean test_boolean = Building.stream()
+                                .anyMatch(floor -> floor.getPopulation().size() > 0); */
                         break;
                     }
                     else{
