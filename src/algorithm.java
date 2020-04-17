@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-//TODO make elevator pick people up on the way down too
+//TODO make elevator pick people up on the way down too a
 
 public class algorithm {
     public static LiftMovement direction;
