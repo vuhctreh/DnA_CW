@@ -33,12 +33,14 @@ public class algorithm {
                         if (elevator.getCurrent_load() > max_load) {
                             current_floor++;
                             break;
-                        } else {
+                        }
+                        else {
                             people_in_elevator.add(Building.get(current_floor).getPopulation().get(i));
                             stops.add(Building.get(current_floor).getPopulation().get(i).getDestination_floor());
                             elevator.setCurrent_load(elevator.getCurrent_load() + Building.get(current_floor).getPopulation().get(i).getWeight());
                             Building.get(current_floor).getPopulation().remove(Building.get(current_floor).getPopulation().get(i));
                             System.out.println("Current elevator load = " + elevator.getCurrent_load());
+
                             if (Building.get(current_floor).getPopulation().size() == 0) {
                                 Building.get(current_floor).setPeopleWaiting(false);
                             }
