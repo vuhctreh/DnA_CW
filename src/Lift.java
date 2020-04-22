@@ -1,14 +1,14 @@
 import java.util.List;
 
-public class lift {
+public class Lift {
 
     private List<Integer> stops;
     private String status;
     private LiftMovement direction;
     private int current_load;
-    private List<person> people;
+    private List<Person> people;
 
-    public lift(LiftMovement direction, List<Integer> stops, String status, int current_load, List<person> people){
+    public Lift(LiftMovement direction, List<Integer> stops, String status, int current_load, List<Person> people){
         this.stops = stops;
         this.status = status;
         this.direction = direction;
@@ -48,11 +48,11 @@ public class lift {
         this.current_load = current_load;
     }
 
-    public List<person> getPeople() {
+    public List<Person> getPeople() {
         return people;
     }
 
-    public void setPeople(List<person> people) {
+    public void setPeople(List<Person> people) {
         this.people = people;
     }
 }

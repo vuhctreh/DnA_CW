@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class lift_floor implements Comparable<lift_floor>{
+public class LiftFloor implements Comparable<LiftFloor>{
 
     private int floor;
     private boolean hasPeopleWaiting;
-    private List<person> population;
+    private List<Person> population;
 
-    public lift_floor(int floor, boolean hasPeopleWaiting, List<person> population){
+    public LiftFloor(int floor, boolean hasPeopleWaiting, List<Person> population){
         this.floor = floor;
         this.hasPeopleWaiting = hasPeopleWaiting;
         this.population = population;
@@ -29,11 +29,11 @@ public class lift_floor implements Comparable<lift_floor>{
         return hasPeopleWaiting;
     }
 
-    public List<person> getPopulation() {
+    public List<Person> getPopulation() {
         return population;
     }
 
-    public void setPopulation(ArrayList<person> population) {
+    public void setPopulation(ArrayList<Person> population) {
         this.population = population;
     }
 
@@ -43,7 +43,7 @@ public class lift_floor implements Comparable<lift_floor>{
     }
 
     @Override
-    public int compareTo(lift_floor o) {
+    public int compareTo(LiftFloor o) {
         return -1 * Integer.compare(o.getFloor(), getFloor());
     }
 }

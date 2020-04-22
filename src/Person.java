@@ -1,11 +1,11 @@
-public class person {
+public class Person {
 
     private int current_floor;
     private int destination_floor;
     private String status;
     private int weight;
 
-    public person(int current_floor, int destination_floor, String status, int weight){
+    public Person(int current_floor, int destination_floor, String status, int weight){
         this.current_floor = current_floor;
         this.destination_floor = destination_floor;
         this.status = status;
