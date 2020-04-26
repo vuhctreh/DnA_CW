@@ -4,12 +4,14 @@ public class Person {
     private int destination_floor;
     private String status;
     private int weight;
+    private int time_in_elevator;
 
     public Person(int current_floor, int destination_floor, String status, int weight){
         this.current_floor = current_floor;
         this.destination_floor = destination_floor;
         this.status = status;
         this.weight = weight;
+        this.time_in_elevator = 0;
     }
 
     public void setCurrent_floor(int current_floor) {
@@ -35,5 +37,13 @@ public class Person {
     }
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public int getTime_in_elevator() {
+        return time_in_elevator;
+    }
+
+    public void setTime_in_elevator(int time_in_elevator) {
+        this.time_in_elevator = time_in_elevator;
     }
 }

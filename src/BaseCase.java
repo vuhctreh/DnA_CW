@@ -3,13 +3,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class BaseCase {
     public static LiftMovement direction = LiftMovement.UP;
     public static int floors = 6;
     public static int current_floor = 0;
     public static int max_load = 150;
+    public static int TotalTimeInElevator = 0;
+    public static int TotalPeopleInElevator = 0;
 
     static List<Integer> stops = new ArrayList<>();
     static List<Person> people_in_elevator = new ArrayList<>();
@@ -20,6 +22,12 @@ public class BaseCase {
         List<LiftFloor> Building = Generators.Population_Generator(floors);
 
         Collections.sort(Building);
+
+        IntStream.range(0, Building.size()).forEach(i -> TotalPeopleInElevator+= Building.get(i).getPopulation().size());
+
+        System.out.println("-----------------------------------------");
+        IntStream.range(0, Building.size()).forEach(i -> System.out.println(Building.get(i).getPopulation().size()));
+        System.out.println("-----------------------------------------");
 
         boolean isAtTop = false;
 
@@ -32,6 +40,9 @@ public class BaseCase {
                     if(current_floor > floors - 1) {
                         break;
                     }
+
+                    elevator.getPeople().forEach(i -> i.setTime_in_elevator(i.getTime_in_elevator() + 1));
+
                     if (Building.get(current_floor).getPopulation().isEmpty())
                         Building.get(current_floor).setPeopleWaiting(false);
 
@@ -81,7 +92,6 @@ public class BaseCase {
                                 iterator.remove();
                                 }
                             }
-                        List<Integer> listWithoutDuplicates = stops.stream().distinct().collect(Collectors.toList());
                         elevator.setStops(stops);
                         TimeUnit.SECONDS.sleep(2);
                     }
@@ -92,6 +102,11 @@ public class BaseCase {
                 direction = LiftMovement.UP;
             ArePeopleWaiting = Building.stream().anyMatch(LiftFloor::getPeopleWaiting);
         }
+        System.out.println("-----------------------------------------");
+        System.out.println("There were " + TotalPeopleInElevator + " total people waiting for the elevator.");
+        System.out.println("People were in the elevator for a cumulative total of " + TotalTimeInElevator + " floors.");
+        System.out.println("The average time spent in the elevator is: " + TotalTimeInElevator/TotalPeopleInElevator + ". There were: " + floors + " floors.");
+        System.out.println("-----------------------------------------");
     }
 
     public static void LiftDropOffLoop() {
@@ -104,6 +119,7 @@ public class BaseCase {
                     final Person person = iterator.next();
                     if(person.getDestination_floor() == current_floor){
                         elevator.setCurrent_load(elevator.getCurrent_load() - person.getWeight());
+                        TotalTimeInElevator += person.getTime_in_elevator();
                         iterator.remove();
                         System.out.println("Person dropped off.");
                     }

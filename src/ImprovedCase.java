@@ -7,11 +7,13 @@ import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.concurrent.TimeUnit;
 
-public class CaseTwo2 {
+public class ImprovedCase {
 
     public static int floors = 6;
     public static int max_load = 150;
     public static int current_floor = 0;
+    public static int TotalTimeInElevator = 0;
+    public static int TotalPeopleInElevator = 0;
 
     static List<Integer> stops = new ArrayList<>();
     static List<Person> people_in_elevator = new ArrayList<>();
@@ -20,13 +22,12 @@ public class CaseTwo2 {
 
     public static void main(String[] args) throws InterruptedException {
 
-        System.out.println(Building.get(0).getPopulation().size());
-        System.out.println(Building.get(1).getPopulation().size());
-        System.out.println(Building.get(2).getPopulation().size());
-        System.out.println(Building.get(3).getPopulation().size());
-        System.out.println(Building.get(4).getPopulation().size());
-        System.out.println(Building.get(5).getPopulation().size());
+        IntStream.range(0, Building.size()).forEach(i -> TotalPeopleInElevator+= Building.get(i).getPopulation().size());
+
         System.out.println("-----------------------------------------");
+        IntStream.range(0, Building.size()).forEach(i -> System.out.println(Building.get(i).getPopulation().size()));
+        System.out.println("-----------------------------------------");
+
 
         boolean ArePeopleWaiting = Building.stream()
                                             .anyMatch(LiftFloor::getPeopleWaiting);
@@ -79,7 +80,7 @@ public class CaseTwo2 {
                         else
                             move(Movement.DOWN);
                     }
-                    TimeUnit.SECONDS.sleep(4);
+                    TimeUnit.SECONDS.sleep(2);
                     if(UpperBound == -1){
                         while(current_floor> LowerBound){
                             move(Movement.DOWN);
@@ -127,27 +128,25 @@ public class CaseTwo2 {
                 }
                 System.out.println("-----------------------------------------");
                 System.out.println(current_floor);
-                System.out.println(elevator.getPeople());
-                System.out.println(CheckMax());
-                System.out.println(CheckMin());
+                System.out.println("People in elevator: " + elevator.getPeople());
+                System.out.println("The highest planned stop is: " + CheckMax());
+                System.out.println("The lowest planned stop is: " + CheckMin());
                 System.out.println("-----------------------------------------");
                 Building.forEach(i -> {
                             if (i.getPopulation().size() == 0)
                                 i.setPeopleWaiting(false);
                         });
-                System.out.println(Building.get(0).getPopulation().size());
-                System.out.println(Building.get(1).getPopulation().size());
-                System.out.println(Building.get(2).getPopulation().size());
-                System.out.println(Building.get(3).getPopulation().size());
-                System.out.println(Building.get(4).getPopulation().size());
-                System.out.println(Building.get(5).getPopulation().size());
+                IntStream.range(0, Building.size()).forEach(i -> System.out.println(Building.get(i).getPopulation().size()));
                 System.out.println("-----------------------------------------");
                 TimeUnit.SECONDS.sleep(2);
-                if (!Building.stream().anyMatch(LiftFloor::getPeopleWaiting))
+                if (Building.stream().noneMatch(LiftFloor::getPeopleWaiting))
                     ArePeopleWaiting = false;
             }
         }
-        System.out.println(elevator.getPeople());
+        System.out.println("There were " + TotalPeopleInElevator + " total people waiting for the elevator.");
+        System.out.println("People were in the elevator for a cumulative total of " + TotalTimeInElevator + " floors.");
+        System.out.println("The average time spent in the elevator is: " + TotalTimeInElevator/TotalPeopleInElevator + ". There were: " + floors + " floors.");
+        System.out.println("-----------------------------------------");
     }
 
     public static void move (Movement movement){
@@ -164,9 +163,11 @@ public class CaseTwo2 {
             final Person person = iterator.next();
             int diff = person.getDestination_floor() - nextFloor;
             if(diff == 0){
+                TotalTimeInElevator += person.getTime_in_elevator();
                 iterator.remove();
             }
         }
+
         final Iterator<Person> BuildingIterator = Building.get(current_floor).getPopulation().iterator();
         while(BuildingIterator.hasNext()){
             final Person PersonWaiting = BuildingIterator.next();
@@ -191,15 +192,14 @@ public class CaseTwo2 {
                 BuildingIterator.remove();
             }
         }
+        elevator.getPeople().forEach(i -> i.setTime_in_elevator(i.getTime_in_elevator() + 1));
 
         current_floor = nextFloor;
     }
 
     public static int CheckMin(){
         List<Integer> Comparator = new ArrayList<>();
-        final Iterator<Person> iterator = elevator.getPeople().iterator();
-        while (iterator.hasNext()){
-            final Person person = iterator.next();
+        for (Person person : elevator.getPeople()) {
             Comparator.add(person.getDestination_floor());
         }
 
@@ -210,9 +210,7 @@ public class CaseTwo2 {
 
     public static int CheckMax(){
         List<Integer> Comparator = new ArrayList<>();
-        final Iterator<Person> iterator = elevator.getPeople().iterator();
-        while (iterator.hasNext()){
-            final Person person = iterator.next();
+        for (Person person : elevator.getPeople()) {
             Comparator.add(person.getDestination_floor());
         }
 
