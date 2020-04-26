@@ -14,6 +14,11 @@ public class Generators {
            if(coin_flip < 1){
                for(int x = 0; x < numberOfPeople; x ++){
                    int destination_floor = rand.nextInt(total_Floors - 1);
+                   if (destination_floor == i){
+                       while(destination_floor ==i) {
+                           destination_floor = rand.nextInt(total_Floors - 1);
+                       }
+                   }
                    int weight = rand.nextInt(100-30) + 30;
                    Person additional_Person = new Person(i, destination_floor, "waiting", weight);
                    people.add(additional_Person);

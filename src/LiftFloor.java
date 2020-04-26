@@ -37,6 +37,7 @@ public class LiftFloor implements Comparable<LiftFloor>{
         this.population = population;
     }
 
+
     @Override
     public String toString(){
         return "Floor: " + getFloor();

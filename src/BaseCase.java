@@ -48,7 +48,6 @@ public class BaseCase {
                                 iterator.remove();
                             }
                         }
-                        List<Integer> listWithoutDuplicates = stops.stream().distinct().collect(Collectors.toList());
                         elevator.setStops(stops);
                         TimeUnit.SECONDS.sleep(2);
                     }
@@ -99,12 +98,14 @@ public class BaseCase {
 
         for (int i = 0; i < elevator.getStops().size(); i++) {
             if (elevator.getStops().get(i).equals(current_floor)) {
+                System.out.println("If statement in drop off loop is true");
                 final Iterator<Person> iterator = elevator.getPeople().iterator();
                 while (iterator.hasNext()) {
                     final Person person = iterator.next();
                     if(person.getDestination_floor() == current_floor){
                         elevator.setCurrent_load(elevator.getCurrent_load() - person.getWeight());
                         iterator.remove();
+                        System.out.println("Person dropped off.");
                     }
                 }
                 elevator.getStops().remove(elevator.getStops().get(i));
